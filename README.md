@@ -10,7 +10,9 @@ Utilizes Next.js for server-side rendering and optimized performance.
 
 ## Tech Stack
 Next.js: A React-based framework for server-side rendering and building fast web applications.
+
 Material-UI (MUI): A popular React component library for building responsive and accessible user interfaces.
+
 REST Countries API: Provides data for all countries, including names, populations, flags, and more.
 
 ## Getting Started
