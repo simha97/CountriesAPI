@@ -1,4 +1,4 @@
-### Country Explorer
+# Country Explorer
 This project is a web application built with Next.js and Material-UI (MUI) that interacts with the REST Countries API to display information about various countries.
 
 ## Features
