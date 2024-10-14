@@ -8,15 +8,34 @@ import {
   SelectChangeEvent,
   TextField,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Card from "@/components/Card";
 
 function CountrySearch() {
   const [age, setAge] = React.useState("");
   const mockData = ["Germany", "USA", "Brazil", "jamaica"];
+  const [data, setdata] = useState([
+    {
+      name: { common: "" },
+      flags: { png: "" },
+      capital: [""],
+      population: 0,
+      region: "",
+    },
+  ]);
   const handleChange = (event: SelectChangeEvent) => {
     setAge(event.target.value as string);
   };
+
+  useEffect(() => {
+    fetch(
+      "https://restcountries.com/v3.1/all?fields=name,flags,capital,population,region"
+    )
+      .then((response) => response.json())
+      .then((data) => setdata(data));
+  }, []);
+
+  console.log(data);
   return (
     <Box sx={{ padding: "2rem" }}>
       <Box
@@ -52,9 +71,24 @@ function CountrySearch() {
           </Select>
         </FormControl>
       </Box>
-      <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-        {mockData.map((country) => {
-          return <Card key={country} />;
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          flexWrap: "wrap",
+        }}
+      >
+        {data.map((country) => {
+          return (
+            <Card
+              name={country.name.common}
+              capital={country.capital[0]}
+              flag={country.flags.png}
+              population={country.population}
+              region={country.region}
+              key={country.name.common}
+            />
+          );
         })}
       </Box>
     </Box>
