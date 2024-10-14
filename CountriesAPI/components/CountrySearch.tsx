@@ -8,12 +8,11 @@ import {
   SelectChangeEvent,
   TextField,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Card from "@/components/Card";
 
 function CountrySearch() {
-  const [age, setAge] = React.useState("");
-  const mockData = ["Germany", "USA", "Brazil", "jamaica"];
+  const [region, setRegion] = React.useState("");
   const [data, setdata] = useState([
     {
       name: { common: "" },
@@ -23,19 +22,65 @@ function CountrySearch() {
       region: "",
     },
   ]);
+
+  const [filteredCountries, setFilteredCountries] = useState(data);
+
   const handleChange = (event: SelectChangeEvent) => {
-    setAge(event.target.value as string);
+    setRegion(event.target.value as string);
   };
+
+  const [searchValue, setSearchValue] = useState("");
+
+  const handleTyping = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setSearchValue(e.target.value);
+  };
+
+  useMemo(() => {
+    let countries = [];
+
+    if (region !== "") {
+      countries = data.filter((country) => country.region === region);
+
+      if (searchValue !== "") {
+        setFilteredCountries(
+          countries.filter((country) =>
+            country.name.common
+              .toLowerCase()
+              .includes(searchValue.toLowerCase())
+          )
+        );
+      } else {
+        setFilteredCountries(countries);
+      }
+    } else if (region === "") {
+      if (searchValue !== "") {
+        setFilteredCountries(
+          data.filter((country) =>
+            country.name.common
+              .toLowerCase()
+              .includes(searchValue.toLowerCase())
+          )
+        );
+      } else {
+        setFilteredCountries(data);
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data, region, searchValue]);
 
   useEffect(() => {
     fetch(
       "https://restcountries.com/v3.1/all?fields=name,flags,capital,population,region"
     )
       .then((response) => response.json())
-      .then((data) => setdata(data));
+      .then((data) => {
+        setdata(data); // Set the unfiltered data
+        setFilteredCountries(data); // Initially display all countries
+      });
   }, []);
 
-  console.log(data);
   return (
     <Box sx={{ padding: "2rem" }}>
       <Box
@@ -50,6 +95,7 @@ function CountrySearch() {
           label="Search for a country..."
           variant="outlined"
           sx={{ width: "30vw", backgroundColor: "#ffffff" }}
+          onChange={(e) => handleTyping(e)}
         />
         <FormControl sx={{ width: "25vw", backgroundColor: "#ffffff" }}>
           <InputLabel id="demo-simple-select-label">
@@ -58,11 +104,11 @@ function CountrySearch() {
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
-            value={age}
+            value={region}
             label="Region"
             onChange={handleChange}
           >
-            <MenuItem value="All">All</MenuItem>
+            <MenuItem value="">All</MenuItem>
             <MenuItem value="Africa">Africa</MenuItem>
             <MenuItem value="Americas">America</MenuItem>
             <MenuItem value="Asia">Asia</MenuItem>
@@ -78,7 +124,7 @@ function CountrySearch() {
           flexWrap: "wrap",
         }}
       >
-        {data.map((country) => {
+        {filteredCountries.map((country) => {
           return (
             <Card
               name={country.name.common}
