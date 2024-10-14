@@ -1,14 +1,14 @@
-###Country Explorer
+### Country Explorer
 This project is a web application built with Next.js and Material-UI (MUI) that interacts with the REST Countries API to display information about various countries.
 
-##Features
+## Features
 Fetches country data (name, population, region, capital, flag, etc.) from the REST Countries API.
 Implements dynamic search functionality to find countries by name.
 Utilizes filters to browse countries by region.
 Responsive and user-friendly design with Material-UI for a clean, modern look.
 Utilizes Next.js for server-side rendering and optimized performance.
 
-##Tech Stack
+## Tech Stack
 Next.js: A React-based framework for server-side rendering and building fast web applications.
 Material-UI (MUI): A popular React component library for building responsive and accessible user interfaces.
 REST Countries API: Provides data for all countries, including names, populations, flags, and more.
