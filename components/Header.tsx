@@ -15,12 +15,8 @@ function Header() {
       }}
     >
       <Typography variant="h1" sx={{ fontSize: "1.5rem", fontWeight: 700 }}>
-        Where in the world
+        The World
       </Typography>
-      <Button>
-        <NightlightRoundIcon />
-        Dark Mode
-      </Button>
     </Box>
   );
 }
