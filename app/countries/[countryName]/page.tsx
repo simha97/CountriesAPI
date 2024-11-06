@@ -2,8 +2,6 @@
 
 import React, { useEffect, useState } from "react";
 
-console.log(process.env.NEXT_PUBLIC_MESSAGE);
-console.log(process.env.NEXT_PUBLIC_OPENAI_API_KEY);
 
 interface Props {
   params: {
